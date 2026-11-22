@@ -1,0 +1,15 @@
+{
+  "name": "mexitalian",
+  "description": "Claude skills by mexitalian.",
+  "owner": {
+    "name": "mexitalian",
+    "url": "https://github.com/mexitalian"
+  },
+  "plugins": [
+    {
+      "name": "obsidian-vault-kit",
+      "source": "./plugins/obsidian-vault-kit",
+      "description": "Run your life admin, tech fixes, projects and study in Obsidian with Claude: Tasks conventions with #cal sync to Google Calendar, a casebook for processes and what you learn about how systems work, low-stress study notes with computed reviews, and online-course capture."
+    }
+  ]
+}

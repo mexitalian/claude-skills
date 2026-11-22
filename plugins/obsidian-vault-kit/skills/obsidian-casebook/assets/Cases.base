@@ -1,0 +1,35 @@
+filters:
+  and:
+    - type == "case"
+views:
+  - type: table
+    name: Open cases
+    filters:
+      and:
+        - status != "done"
+        - status != "dropped"
+    groupBy:
+      property: status
+      direction: ASC
+    order:
+      - file.name
+      - kind
+      - counterpart
+      - started
+    sort:
+      - property: started
+        direction: ASC
+  - type: table
+    name: Closed
+    filters:
+      or:
+        - status == "done"
+        - status == "dropped"
+    order:
+      - file.name
+      - kind
+      - status
+      - closed
+    sort:
+      - property: closed
+        direction: DESC

@@ -1,0 +1,15 @@
+filters:
+  and:
+    - type == "learning"
+views:
+  - type: table
+    name: Learnings (oldest check first)
+    order:
+      - file.name
+      - area
+      - kind
+      - basis
+      - last_verified
+    sort:
+      - property: last_verified
+        direction: ASC

@@ -1,0 +1,12 @@
+{
+  "glossary_note": "Glossary",
+  "folders": ["Cases", "Learnings"],
+  "skip_files": ["Glossary.md"],
+  "skip_sections": ["Sources", "Contacts and channels", "Cards", "Source", "Concepts used"],
+  "skip_line_prefixes": ["- [[", "[["],
+  "note": "Each term is a regex (case-insensitive unless wrapped in (?-i:...)) mapped to a ### heading in the glossary note. Copy this file to <vault>/glossary_terms.json and edit it.",
+  "terms": [
+    ["Anmeldung(?:sbestätigung)?", "Anmeldung"],
+    ["(?-i:\\bIBAN\\b)", "IBAN"]
+  ]
+}
