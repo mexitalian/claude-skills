@@ -71,12 +71,31 @@ None of them changes anything unless you pass `--apply`. Keep them outside your 
 
 ## How it's tested
 - **Scripts:** [`tests/`](tests) holds about 45 automated tests for the three scripts, covering Windows line endings, block references, code blocks, the privacy check (which must never print the number it found), stale learnings and broken links. They also check that a vault built only from the skills' templates passes the audit, and that the [example vault](examples/Example%20vault) stays clean. [GitHub Actions](.github/workflows/test.yml) runs them on Python 3.9 and 3.13 on every push, together with `claude plugin validate`.
-- **Skills:** written and tried with Claude Opus. Behaviour evals (does Claude pick the right skill, and follow it?) are planned; see the [changelog](CHANGELOG.md) for progress.
+- **Skills:** [`plugins/obsidian-vault-kit/evals/`](plugins/obsidian-vault-kit/evals) holds 13 behaviour evals for `claude plugin eval`. Each one is a realistic request, run once with the plugin and once without, and checked for what Claude actually did. For example: was the right skill used, does the case note have a dated log and a chase date, did a tax ID stay out of the vault, did the course lesson get linked from its week page. Two cases check that the skills stay out of unrelated requests (a recipe, a Python question).
 
-Run the tests yourself:
+Results on 23 November 2026, with Claude Code's default model and a Sonnet judge. These are trial numbers (one or two runs per case), not a benchmark:
+
+| Situation | With plugin | Without |
+|---|---|---|
+| **Fresh vault, no examples to copy:** start a first case | 1.00 | 0.29 |
+| **Fresh vault:** a first study note with recall | 1.00 | 0.20 |
+| **Fresh vault:** prepare `#cal` tasks for the calendar | 1.00 | 0.33 |
+| **Fresh vault:** keep a passport number and IBAN out of the note | 1.00 | 1.00 |
+| **Vault built from the example:** update, review, ids, study notes, course lesson (7 cases) | 1.00 | 0.98 |
+| **Unrelated requests:** no skill should load (2 cases) | 1.00 | 1.00 |
+
+The skills matter most when a vault has no examples to copy. Once a vault exists, Claude largely follows the conventions it can see in it. The evals also caught a real problem: in reviews, Claude named weekdays it had guessed wrong. The casebook now tells it to compute them (fixed in 1.2.0).
+
+Run the script tests yourself:
 ```bash
 pip install pytest
 python -m pytest -q tests
+```
+
+Run the behaviour evals (they use your Claude plan; a full pass is about 26 sessions):
+```bash
+cd plugins/obsidian-vault-kit
+claude plugin eval . --scaffold --allow-tools Write Edit Bash --runs 1 --judge-model sonnet
 ```
 
 ## Feedback

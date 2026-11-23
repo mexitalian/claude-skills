@@ -1,6 +1,6 @@
 ---
 name: obsidian-casebook
-description: "Track ongoing processes in an Obsidian vault and keep what you learn about how systems work: bureaucracy and life admin (offices, applications, taxes, insurance), tech setups and fixes, or any ongoing project. Use when the user wants to start, update, review or close a case, log what happened, record how something actually works, check what is waiting or due, or audit such a vault."
+description: "Tracks ongoing processes in an Obsidian vault and keeps what you learn about how systems work: bureaucracy and life admin (offices, applications, taxes, insurance), tech setups and fixes, or any ongoing project. Use when the user wants to start, update, review or close a case, log what happened, record how something actually works, check what is waiting or due, or audit such a vault."
 ---
 
 # Casebook: progress and learnings in an Obsidian vault
@@ -113,7 +113,7 @@ When the user reports what happened (or shares a letter, an email, an error):
 6. Reply with one or two lines: what changed and the next action.
 
 ### Review ("where am I with everything?")
-Read `Cases.base` and the open tasks. Report per active case: next action, what is waiting and for how long, deadlines in the next two weeks. Flag waiting-for items past their chase date and cases with no open task (stalled). Keep it to what needs attention; do not recap the rest.
+Read `Cases.base` and the open tasks. Report per active case: next action, what is waiting and for how long, deadlines in the next two weeks. Give dates as the notes have them (YYYY-MM-DD, or day and month). Add a weekday name only if you have computed it (for example with `date` or Python), never from memory: a wrong weekday is worse than none. Flag waiting-for items past their chase date and cases with no open task (stalled). Keep it to what needs attention; do not recap the rest.
 
 ### Close a case
 Set `status: done` (or `dropped`) and `closed`, write the outcome in "Where this stands", make sure no open tasks remain (move or cancel them with the user), run a final learning sweep, and optionally move the note to `_archive/`. Links keep working if it is moved through Obsidian or with every `[[link]]` updated by script.
@@ -121,20 +121,5 @@ Set `status: done` (or `dropped`) and `closed`, write the outcome in "Where this
 ### Research for a case
 When the user asks how something works, look it up (official sources first), answer, and offer to record it as a Learning with `basis: official` (or `reported` for non-official sources) and the date read. Do not write research into the case Log as if it happened.
 
-## Scripts
-In this skill's `scripts/` folder. They must run where the vault lives (Python 3.9+, standard library only). If the vault is on the user's computer and Claude works from elsewhere, ask once to copy them to a folder outside the vault, such as `<vaults folder>/_tools/`. Never put scripts inside a synced vault.
-
-- `audit_vault.py <vault>`: read-only check of the whole vault. Core checks always run: broken `[[links]]` and `![[embeds]]`, orphan notes, unsafe file names, case and learning frontmatter, case sections and Log order, stalled and done-but-open cases, stale learnings, possible sensitive numbers (masked), `???` decision stubs, `.stignore`, Dashboard queries. Recall and course checks switch on when the vault has study notes or a `Courses/` folder. Options: `--stale-months 12`, `--only core`.
-- `link_glossary.py <vault> [--apply]`: dry run by default. Reads `<vault>/glossary_terms.json` (or `--terms <file>`): see `assets/glossary_terms.example.json`. Links the first plain mention of each term per note, anchored on the word (`[[Glossary#Registration|Anmeldung]]`). It skips frontmatter, headings, tables, code, the glossary note itself and the sections listed in the file. Safe to re-run.
-
-## Audit mode
-Use when the user asks to check or tidy the vault, after a bulk import, or when opening an older vault.
-1. Run `audit_vault.py`. It changes nothing.
-2. Judge each finding before reporting: a difference may be a deliberate choice of the user. Report it as "differs from the skill" and ask whether to update the vault or leave it.
-3. Report one short table (counts of FAIL / WARN / INFO, then findings grouped by area, worst first). Say what could not be checked (how it renders in Obsidian, whether the content is right).
-4. Fix only after approval, with a short script that changes as little as possible; re-run the audit and report the new counts. Never rewrite the user's own words (Log entries, decisions, answers).
-
-## Editing safely
-- Back up before bulk edits: copy the affected notes to a folder outside the vault (`<vaults folder>/_backup/<Vault> pre-<what> <date>`).
-- Edit with a short read-modify-write script: assert each target matches exactly once, dry-run, then apply. In a quoted heredoc write real newlines: a doubled backslash-n becomes literal text (the audit flags it).
-- After renaming a note, section or property, update every reference by script, then re-run the audit.
+## Scripts, audit and safe editing
+Two scripts in `scripts/` (Python 3.9+, standard library only): `audit_vault.py` checks the whole vault read-only, and `link_glossary.py` links glossary terms (dry run unless `--apply`). Before running either, auditing a vault, or making bulk edits, read `references/scripts-and-audit.md`: where the scripts must run, every check and option, the audit report format, and the backup and edit rules.

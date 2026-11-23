@@ -1,6 +1,6 @@
 ---
 name: course-to-obsidian-vault
-description: "Build, extend or audit an Obsidian study vault alongside an online course (Skool, Coursera or similar): capture lessons from the course pages, transcripts or the user's notes into study notes with recall, track progress per week, and keep course files with their usage terms. Use when the user starts a course vault, wants the next lessons added, or wants a course vault checked."
+description: "Builds, extends or audits an Obsidian study vault alongside an online course (Skool, Coursera or similar): capture lessons from the course pages, transcripts or the user's notes into study notes with recall, track progress per week, and keep course files with their usage terms. Use when the user starts a course vault, wants the next lessons added, or wants a course vault checked."
 ---
 
 # Course to Obsidian vault
@@ -83,25 +83,10 @@ General flow (proven on Skool):
 6. **Resource-only lesson** (spreadsheet, ZIP, template): a short note on what the resource is and what to do with it; handle the file as in section 5.
 7. After every batch, update the week page (watched, vault status) and the course map (progress percentage and date). Re-read the platform's progress at the end: it changes as the user watches.
 
-### Coursera
-1. **Sign-in**: without a session, course URLs redirect to the public page (module titles only). The user signs in and must be enrolled (auditing is fine).
-2. **Outline**: open `/learn/<slug>/home/module/N`, wait about 7 seconds (earlier reads return "Loading..."), then read the page text: sections, item types and durations, practice assignments and quiz due dates. Record them in the course map with the date read.
-3. **Lesson pages**: videos are `/learn/<slug>/lecture/<id>/<slug>`, readings `/supplement/<id>/<slug>`. Get the ids from the sidebar entries ("Video, <title>, Not submitted, N min"; "Not submitted" means not done). Only the open section's links show. Opening a reading page can tick it as done on Coursera: open readings only when the user asks, and say that a tick may come from the visit.
-4. **Video text**: open the Transcript panel beside the video (it stays open on the next lecture); the page text then includes the full transcript, so no audio transcription is needed. Reading the whole page also gives the sidebar progress for the week page.
-5. **Long readings**: when a reading links to a long source and the user supplies the file, copy it into `Resources/` with the lesson id in the name, read the whole text (not an automated summary), and rewrite the note from it. Add page ranges for the key parts under Source, and check every figure against the text.
-6. **Capture**: videos and readings become lesson notes, `W<module>-<NN>` in course order. Practice assignments, ungraded items and graded quizzes stay on Coursera: list them on the week page under "On Coursera only (not captured here)", and say when a quiz is overdue or due soon.
-7. **Finish**: close the tabs you opened.
+**Platform notes:** before capturing from Coursera, read `references/coursera.md` (sign-in, outline, transcript panel, readings that tick themselves as done). Skool follows the general flow above.
 
 ## 5. Course files and their terms
-The platform stays the master copy; the vault holds a dated backup.
-- **Getting the file**: by default the user downloads it. Then find it with a read-only search of their Downloads folder (recent zip, xlsx, csv, pdf), confirm it is the right one (for a ZIP, list names only), and COPY it (never move) into `Resources/` as `W<week>-<NN> <Lesson title>.<ext>`. Downloading it yourself needs the user's explicit OK with file name, source and size.
-- **Never unzip or run anything** from an archive, and never unpack it into the vault: store it unopened.
-- Add a row to `Resources/Resources.md` (file, lesson, copied-on date, notes) and link the file with a plain `[[file name.ext]]` in the lesson's Source. Mention what is inside only if you listed it. Large files: link to the platform and add them to `.stignore` instead.
-- **Datasets (xlsx, csv)**: inspect read-only first (sheets, hidden sheets, headers, row counts, comments, any usage terms or copyright line; an `.xlsm` needs a warning). Then:
-  - **Follow the author's terms.** If the sheet or page says what may be done with it, follow that. If there is only a copyright line, tell the user so and treat it as private study: do not mirror the dataset into notes.
-  - **Default**: a screening note in `Doing/` listing item NAMES only, grouped, checked against the lesson's criteria that the data can answer (state each threshold, and which criteria the data cannot check). Separate items with blank data. Flag items the lessons call a bad choice. Say the figures are the author's, that the note is a private study aid, and that it should not be shared.
-  - **Then ask**: which 2-3 items the user picks. Only for those, build fuller notes with the key facts attributed to the sheet.
-  - When a dataset contradicts a lesson, flag it in the note and in "In my life"; do not silently drop or accept it.
+The platform stays the master copy; the vault holds a dated backup. Never unzip or run anything from a course archive. Before copying any course file into the vault, or making notes from a dataset, read `references/course-files.md`: it covers finding the user's download, naming and indexing it, and following the author's terms of use.
 
 ## 6. After every batch
 1. **Glossary**: if the course has a glossary note, keep `glossary_terms.json` up to date and run `link_glossary.py` from `obsidian-casebook` (dry run, check the words, then `--apply`). Set `folders` to `["Courses", "Concepts"]` and `skip_sections` to `["Cards", "Source", "Concepts used"]`.
@@ -110,7 +95,7 @@ The platform stays the master copy; the vault holds a dated backup.
 4. Report in one or two sentences what was built and what is pending, then offer the next chunk as a choice.
 
 ## 7. Audit mode
-Use when the user asks to check a vault, after changing this skill, or before adding lessons to an older vault. READ-ONLY until they approve fixes. Follow the audit mode in `obsidian-casebook`: run the script, judge each finding (a difference may be a deliberate improvement: ask whether to update the skill or the vault), report one short table, fix only after approval, re-run.
+Use when the user asks to check a vault, after changing this skill, or before adding lessons to an older vault. READ-ONLY until they approve fixes. Follow the audit steps in the obsidian-casebook skill (`obsidian-casebook/references/scripts-and-audit.md`): run the script, judge each finding (a difference may be a deliberate improvement: ask whether to update the skill or the vault), report one short table, fix only after approval, re-run.
 
 ## Pitfalls
 - A script that loops over a week folder must skip the week page (it has no lesson frontmatter).

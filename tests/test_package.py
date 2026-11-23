@@ -84,3 +84,30 @@ def test_no_personal_data_in_the_repo():
             if PERSONAL.search(line):
                 hits.append("%s:%d" % (os.path.relpath(path, ROOT), n))
     assert not hits, hits
+
+
+EVALS = os.path.join(ROOT, "plugins", "obsidian-vault-kit", "evals")
+CASES = sorted(d for d in glob.glob(os.path.join(EVALS, "*")) if os.path.isdir(d) and os.path.basename(d) != "results")
+GRADER_TYPES = {"regex", "tool_used", "tool_order", "file_exists", "llm", "baseline"}
+
+
+@pytest.mark.parametrize("case", CASES, ids=os.path.basename)
+def test_eval_cases_are_well_formed(case):
+    """Each eval case has a prompt, at least one grader of a known type, and a runnable seed script if it uses one."""
+    prompt = open(os.path.join(case, "prompt.md"), encoding="utf-8").read()
+    assert re.match(r"---\n.*?\n---\n\s*\S", prompt, re.S), "prompt.md needs frontmatter and a prompt"
+    graders = glob.glob(os.path.join(case, "graders", "*.md"))
+    assert graders, "no graders"
+    for g in graders:
+        m = re.match(r"---\n(.*?)\n---", open(g, encoding="utf-8").read(), re.S)
+        assert m and re.search(r"^type: (\w+)", m.group(1), re.M).group(1) in GRADER_TYPES, g
+    yaml_path = os.path.join(case, "case.yaml")
+    if os.path.exists(yaml_path) and "scaffold_script" in open(yaml_path).read():
+        assert os.access(os.path.join(case, "seed.sh"), os.X_OK), "seed.sh must be executable"
+
+
+def test_seed_script_copies_the_example_vault(tmp_path):
+    import subprocess
+    seed = os.path.join(EVALS, "casebook-letter-arrived", "seed.sh")
+    subprocess.run(["bash", seed], cwd=str(tmp_path), check=True)
+    assert (tmp_path / "vault" / "Cases" / "Register new address.md").exists()

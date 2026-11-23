@@ -1,6 +1,6 @@
 ---
 name: obsidian-task-system
-description: "Use when managing tasks in an Obsidian vault with the Tasks plugin, syncing tasks tagged #cal to Google Calendar, or reconciling the calendar with the vault."
+description: "Keeps Obsidian Tasks-plugin conventions and syncs tasks tagged #cal to Google Calendar, one task to one event, with a bundled script. Use when managing tasks in an Obsidian vault, adding deadlines to the calendar, or reconciling the calendar with the vault."
 ---
 
 # Obsidian task system and calendar sync

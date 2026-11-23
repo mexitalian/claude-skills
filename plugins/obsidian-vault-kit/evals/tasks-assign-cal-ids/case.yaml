@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: tasks-assign-cal-ids
+context:
+  scaffold_script: seed.sh

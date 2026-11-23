@@ -1,6 +1,6 @@
 ---
 name: obsidian-learning-recall
-description: "Turn notes into low-stress study notes in an Obsidian vault: a one-minute summary first, a diagram, short chunks, check-yourself questions, Spaced Repetition cards, confidence ratings and review dates computed by Bases, with each section labelled by the learning method it uses. Use when the user wants to study, remember or review something (a lesson, a book chapter, an article, a glossary, rules they keep forgetting), or to add recall to an existing vault."
+description: "Turns notes into low-stress study notes in an Obsidian vault: a one-minute summary first, a diagram, short chunks, check-yourself questions, Spaced Repetition cards, confidence ratings and review dates computed by Bases, with each section labelled by the learning method it uses. Use when the user wants to study, remember or review something (a lesson, a book chapter, an article, a glossary, rules they keep forgetting), or to add recall to an existing vault."
 ---
 
 # Learning and recall in an Obsidian vault
