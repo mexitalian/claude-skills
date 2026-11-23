@@ -1,0 +1,13 @@
+filters:
+  and:
+    - type == "concept"
+views:
+  - type: table
+    name: Concepts so far
+    order:
+      - file.name
+      - first_seen
+      - confidence
+    sort:
+      - property: first_seen
+        direction: ASC

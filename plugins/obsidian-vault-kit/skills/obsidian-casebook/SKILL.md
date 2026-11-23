@@ -64,7 +64,7 @@ Sections, in this order:
 |---|---|
 | `> [!summary] Where this stands` | Right after the H1. Three lines: status in plain words; the next action and who has it; what you are waiting for and since when. Rewrite it on every update; it is the only part that must be read. |
 | `## ✅ Tasks` | Open tasks in `obsidian-task-system` syntax. Deadlines get `📅` and, if they belong on the calendar, `#cal`. Waiting on someone: `#waiting-for` with `📅` set to the day to chase them. |
-| `## What's needed` | Checklist of documents and requirements, by name only (never their numbers). Tick when ready. |
+| `## What's needed` | Checklist of documents and requirements, by name only (never their numbers). Tick when ready. The Dashboard ignores these boxes; anything that needs doing goes in Tasks. |
 | `## Log` | Newest first. One `### YYYY-MM-DD` heading per day, then bullets: what happened, the channel (letter, email, phone, visit, portal, terminal), who said what, the outcome. Only what the user reports or a document shows. |
 | `## Decisions` | Table: Date, Decision, Why, Options considered. Then `### Open questions` for choices not made yet. |
 | `## Learned here` | Links to the Learning notes this case produced or used, one line each on what it was. |
@@ -96,7 +96,7 @@ Body: one plain sentence stating the rule; `## How it actually works`; `## Gotch
 `Glossary.md` holds terms the user keeps meeting (official words such as "Anmeldebestätigung" or "Steuerbescheid", or technical terms), each as a `###` heading with a one-line plain meaning, the literal translation if useful, and where it shows up. The script `scripts/link_glossary.py` links the first plain mention of each term in other notes to its heading (see "Scripts").
 
 ## Dashboard
-`assets/Dashboard.md` has Tasks queries for open actions, waiting-for (with chase dates), and due in the next two weeks, each excluding `Templates`, then embeds `Cases.base` (grouped by status) and `Learnings.base` (oldest `last_verified` first). Tasks queries must be checked inside Obsidian before anyone relies on them: Claude cannot run them.
+`assets/Dashboard.md` has Tasks queries for open actions, waiting-for (with chase dates), and due in the next two weeks, each excluding `Templates` and the "What's needed" and "Scope" checklists (their boxes are documents to gather, not actions), then embeds `Cases.base` (grouped by status) and `Learnings.base` (oldest `last_verified` first). Tasks queries must be checked inside Obsidian before anyone relies on them: Claude cannot run them.
 
 ## Workflows
 

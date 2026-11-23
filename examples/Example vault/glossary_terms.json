@@ -1,0 +1,11 @@
+{
+  "glossary_note": "Glossary",
+  "folders": ["Cases", "Learnings", "Notes", "Concepts"],
+  "skip_files": ["Glossary.md"],
+  "skip_sections": ["Sources", "Contacts and channels", "Cards", "Source", "Concepts used"],
+  "skip_line_prefixes": ["- [[", "[["],
+  "terms": [
+    ["registration certificate", "Registration certificate"],
+    ["snapshots?", "Snapshot"]
+  ]
+}

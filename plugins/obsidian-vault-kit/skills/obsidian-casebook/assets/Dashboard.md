@@ -9,6 +9,8 @@ tags: [dashboard]
 not done
 due before in two weeks
 path does not include Templates
+heading does not include What's needed
+heading does not include Scope
 sort by due
 ```
 
@@ -17,6 +19,8 @@ sort by due
 not done
 tags include #waiting-for
 path does not include Templates
+heading does not include What's needed
+heading does not include Scope
 sort by due
 ```
 
@@ -25,6 +29,8 @@ sort by due
 not done
 tags do not include #waiting-for
 path does not include Templates
+heading does not include What's needed
+heading does not include Scope
 group by filename
 ```
 

@@ -1,0 +1,1 @@
+{"types": {"started": "date", "closed": "date", "last_verified": "date", "confidence": "number", "last_reviewed": "date"}}

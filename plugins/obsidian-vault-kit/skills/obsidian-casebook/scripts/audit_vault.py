@@ -2,7 +2,7 @@
 """audit_vault.py: read-only audit of an Obsidian vault built with the obsidian-casebook,
 obsidian-learning-recall and course-to-obsidian-vault skills. Prints findings; changes nothing.
 
-  python3 audit_vault.py <vault> [--stale-months 12] [--only core|recall|course]
+  python3 audit_vault.py <vault> [--stale-months 12] [--only core|recall|course] [--today YYYY-MM-DD]
 
 Layers:
   core    always: links and embeds (and #heading anchors), orphans, unsafe file names,
@@ -149,11 +149,16 @@ def main():
     ap.add_argument('vault')
     ap.add_argument('--stale-months', type=int, default=12)
     ap.add_argument('--only', choices=['core', 'recall', 'course'])
+    ap.add_argument('--today', help='YYYY-MM-DD to audit as of (for tests); default: today')
     a = ap.parse_args()
     V = os.path.abspath(os.path.expanduser(a.vault))
     if not os.path.isdir(V):
         ap.error('vault folder not found: %s' % V)
     today = datetime.date.today()
+    if a.today:
+        today = as_date(a.today)
+        if not today:
+            ap.error('--today must be YYYY-MM-DD')
 
     files = []
     for root, dirs, fs in os.walk(V):
@@ -246,7 +251,8 @@ def main():
                 add('WARN', 'cases', '%s: Log has no "### YYYY-MM-DD" entries' % n)
             if dates != sorted(dates, reverse=True):
                 add('WARN', 'cases', '%s: Log is not newest first' % n)
-            tasks = TASK.findall(strip_code(t))
+            # next actions live under "## ✅ Tasks"; checklists such as "What's needed" are not actions
+            tasks = TASK.findall(strip_code(section_body(t, '✅ Tasks')))
             open_t = [b for s, b in tasks if s == ' ']
             if st in ('active', 'blocked') and not open_t:
                 add('WARN', 'cases', '%s: %s case with no open task (no next action)' % (n, st))
@@ -311,6 +317,8 @@ def main():
             for b in blocks:
                 if 'path does not include Templates' not in b:
                     add('WARN', 'dashboard', 'a Tasks query in Dashboard.md does not exclude Templates')
+                if 'not done' in b and "heading does not include What's needed" not in b:
+                    add('INFO', 'dashboard', "a Tasks query in Dashboard.md also lists the What's needed checklists as open tasks")
         ty = os.path.join(V, '.obsidian', 'types.json')
         types = {}
         if os.path.exists(ty):

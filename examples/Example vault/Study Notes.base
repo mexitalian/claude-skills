@@ -1,0 +1,21 @@
+filters:
+  or:
+    - type == "study"
+    - type == "lesson"
+formulas:
+  next_review: 'if(confidence && last_reviewed, last_reviewed + if(confidence == 1, "1d", if(confidence == 2, "3d", if(confidence == 3, "7d", "21d"))), "")'
+properties:
+  formula.next_review:
+    displayName: Next review
+views:
+  - type: table
+    name: All study notes
+    order:
+      - file.name
+      - status
+      - confidence
+      - last_reviewed
+      - formula.next_review
+    sort:
+      - property: file.name
+        direction: ASC
