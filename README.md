@@ -70,7 +70,7 @@ None of them changes anything unless you pass `--apply`. Keep them outside your 
 - **The Syncthing and other sync setups are not included**; any sync tool works, as long as it skips `.obsidian/workspace*.json`.
 
 ## How it's tested
-- **Scripts:** [`tests/`](tests) holds about 45 automated tests for the three scripts, covering Windows line endings, block references, code blocks, the privacy check (which must never print the number it found), stale learnings and broken links. They also check that a vault built only from the skills' templates passes the audit, and that the [example vault](examples/Example%20vault) stays clean. [GitHub Actions](.github/workflows/test.yml) runs them on Python 3.9 and 3.12 on every push, together with `claude plugin validate`.
+- **Scripts:** [`tests/`](tests) holds about 45 automated tests for the three scripts, covering Windows line endings, block references, code blocks, the privacy check (which must never print the number it found), stale learnings and broken links. They also check that a vault built only from the skills' templates passes the audit, and that the [example vault](examples/Example%20vault) stays clean. [GitHub Actions](.github/workflows/test.yml) runs them on Python 3.9 and 3.13 on every push, together with `claude plugin validate`.
 - **Skills:** written and tried with Claude Opus. Behaviour evals (does Claude pick the right skill, and follow it?) are planned; see the [changelog](CHANGELOG.md) for progress.
 
 Run the tests yourself:

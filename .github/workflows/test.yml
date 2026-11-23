@@ -15,24 +15,25 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # 3.9 is the oldest version the scripts promise to support
-        python: ["3.9", "3.12"]
+        # 3.9 is the oldest version the scripts promise to support. uv fetches
+        # it, because current GitHub runners no longer ship Python 3.9.
+        python: ["3.9", "3.13"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
-          python-version: ${{ matrix.python }}
-      - run: pip install pytest
-      - run: python -m pytest -q tests
+          python-version: "3.13"
+      - run: pip install uv
+      - run: uv run --python ${{ matrix.python }} --with pytest python -m pytest -q tests
 
   plugin:
     name: Plugin manifests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
-          node-version: "22"
+          node-version: "24"
       - run: npm install -g @anthropic-ai/claude-code
       - run: claude plugin validate .
       - run: claude plugin validate --strict plugins/obsidian-vault-kit
