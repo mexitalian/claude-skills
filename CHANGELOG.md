@@ -2,6 +2,10 @@
 
 All notable changes to obsidian-vault-kit. Versions follow [semantic versioning](https://semver.org): a new major number means something you rely on changed.
 
+## 1.3.0 (2026-11-25)
+- **Changed:** `obsidian-task-system` gives every dated task `#cal` by default. Before creating an event, the sync now looks for an existing unmanaged event for the same task (target and primary calendar, same day ±1) and adopts it by appending the `obsidian-task:` marker, instead of creating a duplicate. Unclear matches are asked about.
+- **New:** a fallback for assigning `🆔 cal-` ids by hand when the script can't run.
+
 ## 1.2.0 (2026-11-23)
 - **New:** behaviour evals in `plugins/obsidian-vault-kit/evals/`: 13 cases for `claude plugin eval`, each run with and without the plugin. See "How it's tested" in the README for the results.
 - **Fixed:** in reviews, the casebook now names a weekday only when it has computed it. The evals caught Claude labelling 4 December 2026 as a Thursday (it is a Friday).
