@@ -27,6 +27,7 @@ Check what is installed first: `<vault>/.obsidian/community-plugins.json`. This 
 
 ## 2. Calendar sync with #cal
 Claude reconciles on request, and after changing any `#cal` task.
+- Every dated task gets `#cal` by default, subtasks included, unless the user says otherwise. Never leave `#cal` off just because a matching event already exists: link the task to that event instead (step 3).
 - An open task with `#cal` and `📅 YYYY-MM-DD` = one event on that date. Optional `⏰ HH:MM` and `⏱ 1h` (or `1h30m`, `45m`) in the description; without ⏰ the event is all-day.
 - The Tasks-plugin id `🆔 cal-xxxxxx` on the line links task and event. The event description carries `obsidian-task: cal-xxxxxx`. Events without that marker are unmanaged: never touch them.
 
@@ -45,7 +46,8 @@ Several vaults can share one calendar. Then every managed event also carries `ob
 1. Run `list`. Fix `problems` first: assign missing ids (dry run, then apply), ask about `#cal` tasks with no 📅, and resolve duplicate ids.
 2. List events on the target calendar with full-text search `obsidian-task` (or `obsidian-vault: <VaultName>`) over a wide date range.
 3. Match by id.
-   - **No event:** create one. Title from the task. Description: the task's notes, the `obsidian-task: <id>` line and "Managed from the Obsidian vault: change the 📅 date on the task there, not here."
+   - **No event with that id:** first look for one to adopt. List events on the task's date (±1 day) on the target calendar and on the primary calendar. An event without an `obsidian-task:` marker whose title or description clearly describes the same task (same action, same subject) is the same thing: append the `obsidian-task: <id>` line and the "Managed from the Obsidian vault…" line to the end of its description, keep its title, calendar, time, location and reminders, send no notifications, and report it as adopted. If you are unsure whether it matches, ask instead of guessing.
+   - **Nothing to adopt:** create one. Title from the task. Description: the task's notes, the `obsidian-task: <id>` line and "Managed from the Obsidian vault: change the 📅 date on the task there, not here."
    - **Reminders:** a popup at 09:00 on the day (all-day events count minutes back from midnight, so `-540`), plus one a day earlier (`1440`) for high-priority tasks. If the calendar tool rejects a negative value, tell the user and use the nearest accepted reminder instead.
    - **Date, time or duration differs:** update only those fields. **Same:** leave it alone. Never overwrite other event text unless asked.
 4. An event with an id but no open `#cal` task:
@@ -56,6 +58,7 @@ Several vaults can share one calendar. Then every managed event also carries `ob
 ## 3. Working on the vault
 - Back up before bulk edits: copy the affected notes to a backup folder outside the vault, such as `<vaults folder>/_backup/<Vault> pre-<what> <date>`.
 - Keep helper scripts outside every vault, so sync tools do not send them to other devices.
+- If the script can't run (for example its folder isn't reachable), assign ids by hand: `cal-` plus 6 random lowercase letters or digits, checked unique against every note in the vault, placed as `🆔 cal-xxxxxx` at the end of the task line.
 - Edit notes with a short read-modify-write script: assert that each target line matches exactly once, dry-run first, then apply.
 - Ask before any system-level change (installing software, changing services, editing app config). Edits to vault notes that the user asked for are fine.
 
